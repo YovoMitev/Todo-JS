@@ -14,10 +14,22 @@ class  TodoStore extends EventEmitter{
             .catch()
     }
 
+    creteTodo(todo){
+        TodoData.creteTodo(todo)
+            .then(response => {
+                this.emit(this.eventTypes.CREATE_TODO, response)
+            })
+            .catch()
+    }
+
     handleAction (action) {
         switch (action.type) {
             case TodoActions.types.ALL_TODOS: {
                 this.getAll()
+                break
+            }
+            case TodoActions.types.CREATE_TODO:{
+                this.creteTodo(action.todo)
                 break
             }
             default:break
@@ -29,7 +41,8 @@ class  TodoStore extends EventEmitter{
 let todoStore = new TodoStore();
 
 todoStore.eventTypes = {
-    TODOS_RETRIEVED: 'todos_retrieved'
+    TODOS_RETRIEVED: 'todos_retrieved',
+    TODO_CREATE:'todo_crete'
 }
 
 dispatcher.register(todoStore.handleAction.bind(todoStore))

@@ -8,7 +8,13 @@ function getTodos () {
   return requester.get(serviceUrl)
 }
 
+function creteTodo(todo){
+    const serviceUtl = `${BASE_URL}/create`
+    return requester.post(serviceUtl, todo)
+}
+
 
 export default {
-  getTodos
+    getTodos,
+    creteTodo
 }
