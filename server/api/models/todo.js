@@ -4,8 +4,8 @@ const todoSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: {type: String, required: true},
     body: {type: String, required: true},
-    priority: {type: Boolean},
-    completed: {type: Boolean},
+    priority: {type: Boolean , default: false},
+    completed: {type: Boolean, default:false},
 
 });
 
