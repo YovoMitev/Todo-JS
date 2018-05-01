@@ -1,59 +1,102 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import TodoActions from '../../actions/TodoActions'
 import TodoStore from '../../stores/TodoStore'
 import TodoListing from '../../components/todo/TodoListing'
 
 class HomePage extends Component {
-  constructor (props){
-    super (props)
+    constructor(props) {
+        super(props)
 
-    this.state = {
-      todos:[]
+        this.state = {
+            todos: []
+        }
+
+        this.handleTodosRetrieved = this.handleTodosRetrieved.bind(this)
+
+        TodoStore.on(TodoStore.eventTypes.TODOS_RETRIEVED, this.handleTodosRetrieved)
+
+        this.handleCompletedTodo = this.handleCompletedTodo.bind(this)
+
+        TodoStore.on(TodoStore.eventTypes.TODO_UPDATED, this.handleCompletedTodo)
     }
 
-    this.handleTodosRetrieved = this.handleTodosRetrieved.bind(this)
+    handleCompletedTodo(){
+        this.props.history.push('/')
+    }
 
-    TodoStore.on(TodoStore.eventTypes.TODOS_RETRIEVED,this.handleTodosRetrieved)
-  }
+    componentDidMount() {
+        TodoActions.all()
+    }
 
-  componentDidMount(){
-      TodoActions.all()
-  }
-  componentWillUnmount(){
-      TodoStore.removeListener(TodoStore.eventTypes.TODOS_RETRIEVED,this.handleTodosRetrieved)
-  }
+    componentWillUnmount() {
+        TodoStore.removeListener(TodoStore.eventTypes.TODOS_RETRIEVED, this.handleTodosRetrieved)
+        TodoStore.removeListener(TodoStore.eventTypes.TODO_UPDATED, this.handleCompletedTodo)
+    }
 
-  handleTodosRetrieved(data){
-      let todos = data.todos
-      this.setState({todos})
-      console.log(this.state.todos)
-  }
+    completeTodo(todo) {
+        todo.completed = true
+        TodoActions.update(todo)
+    }
 
-  redirectToDetails(id){
-    this.props.history.push(`/details/${id}`)
-  }
+    handleTodosRetrieved(data) {
+        let todos = data.todos
+        this.setState({todos})
 
-  render(){
+    }
 
-      let todos =  this.state.todos.map(todo => {
-          return <TodoListing
-              key={todo._id}
-              todo={todo}
-              redirect={this.redirectToDetails.bind(this, todo._id)}
+    redirectToDetails(id) {
+        this.props.history.push(`/details/${id}`)
+    }
 
-          />
-      })
+    render() {
+        let allTodos = this.state.todos
 
-    return (
-      <div>
-        <h1>Welcome to Todos!</h1>
-        <hr></hr>
-        <ul>
-            {todos}
-        </ul>
-      </div>
-    )
-  }
+        let todos = allTodos.map(todo => {
+            if (!todo.completed){
+                return<TodoListing
+                    key={todo._id}
+                    todo={todo}
+                    redirect={this.redirectToDetails.bind(this, todo._id)}
+                    completeTodo={this.completeTodo.bind(this, todo)}
+                />
+            }
+        })
+
+       const result = allTodos.filter(todo => todo.completed)
+
+        let completedTodos = result.map(todo => {
+                return <TodoListing
+                    key={todo._id}
+                    todo={todo}
+                    redirect={this.redirectToDetails.bind(this, todo._id)}
+                    completeTodo={this.completeTodo.bind(this, todo)}
+                />
+
+        })
+
+
+        return (
+            <div>
+                <h1>Welcome to Todos!</h1>
+                <hr></hr>
+                <ul>
+                    {todos}
+                </ul>
+
+                {completedTodos.length === 0
+                    ?
+                    <h2>No completed Todos</h2>
+                    :
+                    <div>
+                    <h2>Completed Todos</h2>
+                    <ul>
+                    {completedTodos}
+                    </ul>
+                    </div>
+                }
+            </div>
+        )
+    }
 
 }
 

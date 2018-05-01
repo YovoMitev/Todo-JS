@@ -8,7 +8,7 @@ const todoBaseUrl = 'http://localhost:3000/todos/';
 
 router.get('/all', (req, res, next) => {
     Todo.find()
-        .select('title body _id ')
+        .select('title body _id completed')
         .exec()
         .then(docs => {
             const response = {
@@ -18,6 +18,7 @@ router.get('/all', (req, res, next) => {
                         title: doc.title,
                         body: doc.body,
                         _id: doc._id,
+                        completed:doc.completed,
                         request: {
                             type: 'GET',
                             url: todoBaseUrl + doc._id
