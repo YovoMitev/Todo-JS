@@ -18,8 +18,14 @@ function details(id){
   return requester.get(serviceUtl)
 }
 
+function deleteTodo(id){
+  const serviceUtl = `${BASE_URL}/delete/${id}`
+  return requester.remove(serviceUtl)
+}
+
 export default {
     getTodos,
     creteTodo,
-    details
+    details,
+    deleteTodo
 }

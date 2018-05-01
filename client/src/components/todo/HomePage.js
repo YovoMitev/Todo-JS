@@ -29,7 +29,9 @@ class HomePage extends Component {
       console.log(this.state.todos)
   }
 
-
+  redirectToDetails(id){
+    this.props.history.push(`/details/${id}`)
+  }
 
   render(){
 
@@ -37,6 +39,8 @@ class HomePage extends Component {
           return <TodoListing
               key={todo._id}
               todo={todo}
+              redirect={this.redirectToDetails.bind(this, todo._id)}
+
           />
       })
 

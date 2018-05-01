@@ -21,8 +21,9 @@ class CreateTodoPage extends Component{
     }
 
 
-    saveTodo(data){
-        console.log(data)
+    saveTodo(response){
+      const todo = response.data.createdTodo
+      this.props.history.push(`/details/${todo._id}`)
     }
 
     handleInput(event) {

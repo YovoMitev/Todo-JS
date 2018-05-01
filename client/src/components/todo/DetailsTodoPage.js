@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TodoActions from '../../actions/TodoActions'
 import TodoStore from '../../stores/TodoStore'
+import DetailsTodoForm from './DetailsTodoForm'
 
 class DetailsTodoPage extends Component{
   constructor(props){
@@ -23,6 +24,15 @@ class DetailsTodoPage extends Component{
       this.handleRetrievedDetailsData
     )
 
+    this.handleDeletedTodo = this.handleDeletedTodo.bind(this)
+    TodoStore.on(
+      TodoStore.eventTypes.TODO_DELETED,
+      this.handleDeletedTodo
+    )
+  }
+
+  handleDeletedTodo(){
+    this.props.history.push('/')
   }
 
   componentWillUnmount(){
@@ -30,6 +40,11 @@ class DetailsTodoPage extends Component{
        TodoStore.eventTypes.DETAILS_RETRIEVED,
        this.handleRetrievedDetailsData
      )
+
+    TodoStore.removeListener(
+      TodoStore.eventTypes.TODO_DELETED,
+      this.handleDeletedTodo
+    )
   }
 
   componentDidMount(){
@@ -40,6 +55,12 @@ class DetailsTodoPage extends Component{
      let todo = data.todo
 
      this.setState({todo})
+  }
+
+  handleDeleteTodo(event) {
+    event.preventDefault()
+
+    TodoActions.delete(this.id)
   }
 
   handleInput(event) {
@@ -58,7 +79,11 @@ class DetailsTodoPage extends Component{
     return(
       <div>
         <h1>Details Todo Page</h1>
-
+        <DetailsTodoForm
+          todo={this.state.todo}
+          onChange={this.handleInput.bind(this)}
+          onDelete={this.handleDeleteTodo.bind(this)}
+        />
       </div>
     )
   }

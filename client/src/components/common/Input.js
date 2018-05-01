@@ -7,6 +7,7 @@ class Input extends Component {
         <label htmlFor={this.props.name}>{this.props.placeholder}</label>
         <input
             className='form-control'
+            size={this.props.size || '30'}
             type='text'
             name={this.props.name}
             id={this.props.name}
