@@ -12,7 +12,7 @@ function post (url, data, useSession) {
 
 function update (url, data, useSession) {
   let requestHeaders = _getHeaders(data, useSession)
-  return _makeRequest('UPDATE', url, data, requestHeaders)
+  return _makeRequest('PATCH', url, data, requestHeaders)
 }
 
 function remove (url, data, useSession) {

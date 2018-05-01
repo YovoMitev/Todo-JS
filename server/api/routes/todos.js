@@ -94,29 +94,25 @@ router.get('/details/:todoId', (req, res, next) => {
 });
 
 // for update you have to send [] with objects that contains propName and value for every  property you want to update
-router.patch('/update/:todoId', (req, res, next) => {
-    const id = req.params.todoId;
-    const updateOps = {};
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-    Todo.update({_id: id}, {$set: updateOps})
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: 'Todo Updated',
-                request: {
-                    type: 'GET',
-                    url: todoBaseUrl + 'details/' + id
-                }
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.patch('/update', (req, res) => {
+  const updatedTodo = req.body
+  console.log(updatedTodo)
+  Todo
+    .findById(updatedTodo._id)
+    .exec()
+    .then(todo => {
+      todo.title = updatedTodo.title
+      todo.body = updatedTodo.body
+      todo.priority = updatedTodo.priority || false
+      todo.completed = updatedTodo.completed || false
+      todo
+        .save()
+        .then(res.status(200).json({
+          success:true,
+          message:'Successfull updated !'
+        }))
+    }).catch(err => console.log(err))
+})
 
 router.delete('/delete/:todoId', (req, res, next) => {
     const id = req.params.todoId;

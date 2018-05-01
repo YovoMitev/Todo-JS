@@ -33,6 +33,12 @@ class TodoStore extends EventEmitter {
       .then(response => this.emit(this.eventTypes.TODO_DELETED))
   }
 
+  updateTodo (todo) {
+    TodoData
+      .updateTodo(todo)
+      .then(response => this.emit(this.eventTypes.TODO_UPDATED, response.data))
+  }
+
   handleAction (action) {
     switch (action.type) {
       case TodoActions.types.ALL_TODOS: {
@@ -41,6 +47,10 @@ class TodoStore extends EventEmitter {
       }
       case TodoActions.types.CREATE_TODO: {
         this.creteTodo(action.todo)
+        break
+      }
+      case TodoActions.types.UPDATE_TODO: {
+        this.updateTodo(action.todo)
         break
       }
       case TodoActions.types.GET_DETAILS: {
@@ -55,7 +65,6 @@ class TodoStore extends EventEmitter {
         break
     }
   }
-
 }
 
 let todoStore = new TodoStore()
@@ -64,7 +73,8 @@ todoStore.eventTypes = {
   TODOS_RETRIEVED: 'todos_retrieved',
   TODO_CREATE: 'todo_crete',
   DETAILS_RETRIEVED: 'details_retrieved',
-  TODO_DELETED: 'todo_deleted'
+  TODO_DELETED: 'todo_deleted',
+  TODO_UPDATED: 'todo_updated'
 }
 
 dispatcher.register(todoStore.handleAction.bind(todoStore))

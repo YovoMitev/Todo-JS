@@ -25,13 +25,27 @@ class DetailsTodoPage extends Component{
     )
 
     this.handleDeletedTodo = this.handleDeletedTodo.bind(this)
+
     TodoStore.on(
       TodoStore.eventTypes.TODO_DELETED,
       this.handleDeletedTodo
     )
+
+    this.handleUpdatedTodo = this.handleUpdatedTodo.bind(this)
+
+    TodoStore.on(
+      TodoStore.eventTypes.TODO_UPDATED,
+      this.handleUpdatedTodo
+    )
   }
 
-  handleDeletedTodo(){
+  handleUpdatedTodo (data) {
+    console.log("UPDATED")
+    console.log(data)
+    this.props.history.push('/')
+  }
+
+  handleDeletedTodo (){
     this.props.history.push('/')
   }
 
@@ -44,6 +58,11 @@ class DetailsTodoPage extends Component{
     TodoStore.removeListener(
       TodoStore.eventTypes.TODO_DELETED,
       this.handleDeletedTodo
+    )
+
+    TodoStore.removeListener(
+      TodoStore.eventTypes.TODO_UPDATED,
+      this.handleUpdatedTodo
     )
   }
 
@@ -74,6 +93,12 @@ class DetailsTodoPage extends Component{
     this.setState({todo})
   }
 
+  handleUpdateTodo (event){
+    event.preventDefault()
+
+    TodoActions.update(this.state.todo)
+  }
+
   render(){
 
     return(
@@ -83,6 +108,7 @@ class DetailsTodoPage extends Component{
           todo={this.state.todo}
           onChange={this.handleInput.bind(this)}
           onDelete={this.handleDeleteTodo.bind(this)}
+          onUpdate={this.handleUpdateTodo.bind(this)}
         />
       </div>
     )

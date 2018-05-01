@@ -23,9 +23,15 @@ function deleteTodo(id){
   return requester.remove(serviceUtl)
 }
 
+function updateTodo (todo) {
+  const serviceUtl = `${BASE_URL}/update`
+  return requester.update(serviceUtl, todo)
+}
+
 export default {
     getTodos,
     creteTodo,
     details,
-    deleteTodo
+    deleteTodo,
+    updateTodo
 }

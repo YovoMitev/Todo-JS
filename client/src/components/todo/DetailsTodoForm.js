@@ -21,6 +21,7 @@ const DetailsTodoPage = (props) => (
     />
     <br></br>
     <input type='submit' onClick={props.onDelete}  value='Delete'/>
+    <input type='submit' onClick={props.onUpdate}  value='Update'/>
   </form>
 )
 
