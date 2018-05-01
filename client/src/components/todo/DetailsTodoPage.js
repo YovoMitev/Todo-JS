@@ -103,7 +103,7 @@ class DetailsTodoPage extends Component{
 
     return(
       <div>
-        <h1>Details Todo Page</h1>
+        <h1 className='text-center'>Details Todo Page</h1>
         <DetailsTodoForm
           todo={this.state.todo}
           onChange={this.handleInput.bind(this)}

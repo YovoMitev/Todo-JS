@@ -44,8 +44,8 @@ class CreateTodoPage extends Component{
 
     render(){
         return(
-            <div>
-                <h1>Create todo page</h1>
+            <div className='col-md-6 col-md-offset-6'>
+                <h1 className='text-center'>Create todo page</h1>
                 <CreateTodoForm
                     todo={this.state.todo}
                     onChange={this.handleInput.bind(this)}

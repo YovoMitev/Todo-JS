@@ -2,7 +2,7 @@ import React from 'react'
 import Input from '../common/Input'
 
 const CreateTodoForm = (props) => (
-        <form>
+        <form className='form-group'>
             <Input
             name='title'
             type='text'
@@ -17,7 +17,8 @@ const CreateTodoForm = (props) => (
                 value={props.todo.body}
                 onChange={props.onChange}
             />
-            <input type ='submit' onClick={props.onSave} value='Create'/>
+            <br/>
+            <input type ='submit' className='btn btn-primary' onClick={props.onSave} value='Create'/>
         </form>
 )
 

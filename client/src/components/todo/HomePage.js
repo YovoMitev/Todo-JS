@@ -77,19 +77,19 @@ class HomePage extends Component {
 
         return (
             <div>
-                <h1>Welcome to Todos!</h1>
+                <h1 className='text-center'>Welcome to Todos!</h1>
                 <hr></hr>
-                <ul>
+                <ul className='list-group'>
                     {todos}
                 </ul>
 
                 {completedTodos.length === 0
                     ?
-                    <h2>No completed Todos</h2>
+                    <h2 className='text-center'>No completed Todos</h2>
                     :
                     <div>
-                    <h2>Completed Todos</h2>
-                    <ul>
+                    <h2 className='text-center'>Completed Todos</h2>
+                    <ul className='list-group'>
                     {completedTodos}
                     </ul>
                     </div>

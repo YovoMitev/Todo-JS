@@ -20,8 +20,8 @@ const DetailsTodoPage = (props) => (
       onChange={props.onChange}
     />
     <br></br>
-    <input type='submit' onClick={props.onDelete}  value='Delete'/>
-    <input type='submit' onClick={props.onUpdate}  value='Update'/>
+    <input type='submit' className='btn btn-danger' onClick={props.onDelete}  value='Delete'/>
+    <input type='submit' className='btn btn-primary' onClick={props.onUpdate}  value='Update'/>
   </form>
 )
 

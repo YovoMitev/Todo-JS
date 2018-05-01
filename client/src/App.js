@@ -6,10 +6,13 @@ import NavBar from './components/common/NavBar'
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <NavBar/>
-        <Routes/>
-      </div>
+        <div className='wrapper'>
+            <NavBar/>
+            <div className="container">
+                <Routes/>
+            </div>
+        </div>
+            
     );
   }
 }
