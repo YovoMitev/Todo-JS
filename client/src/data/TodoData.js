@@ -13,8 +13,13 @@ function creteTodo(todo){
     return requester.post(serviceUtl, todo)
 }
 
+function details(id){
+  const serviceUtl = `${BASE_URL}/details/${id}`
+  return requester.get(serviceUtl)
+}
 
 export default {
     getTodos,
-    creteTodo
+    creteTodo,
+    details
 }
